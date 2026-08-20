@@ -51,6 +51,47 @@ describe('searchOffers', () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
+  it.each([
+    'https://user:password@api.example.invalid',
+    'https://api.example.invalid?target=other',
+    'https://api.example.invalid#fragment',
+  ])('rejects unsafe API base URL %s', async (apiBaseUrl) => {
+    const fetch = vi.fn<typeof globalThis.fetch>();
+    await expect(searchOffers({}, { apiBaseUrl, fetch })).rejects.toMatchObject({
+      code: 'INVALID_CONFIGURATION',
+    });
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('aborts a stalled request after the configured bounded timeout', async () => {
+    vi.useFakeTimers();
+    const fetch = vi.fn<typeof globalThis.fetch>(
+      (_input, init) =>
+        new Promise((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => reject(new Error('aborted')), {
+            once: true,
+          });
+        }),
+    );
+    const pending = searchOffers(
+      { keyword: 'coffee' },
+      { apiBaseUrl: 'https://api.example.invalid', fetch, timeoutMs: 1_000 },
+    );
+    const assertion = expect(pending).rejects.toMatchObject({ code: 'SERVICE_UNAVAILABLE' });
+    await vi.advanceTimersByTimeAsync(1_000);
+
+    await assertion;
+    vi.useRealTimers();
+  });
+
+  it.each([0, 30_001])('rejects out-of-range timeout %s', async (timeoutMs) => {
+    const fetch = vi.fn<typeof globalThis.fetch>();
+    await expect(
+      searchOffers({}, { apiBaseUrl: 'https://api.example.invalid', fetch, timeoutMs }),
+    ).rejects.toMatchObject({ code: 'INVALID_CONFIGURATION' });
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it('rejects more than five requested results', async () => {
     await expect(
       searchOffers({ keyword: 'coffee', limit: 6 }, { apiBaseUrl: 'https://api.example.invalid' }),

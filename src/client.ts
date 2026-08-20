@@ -23,7 +23,11 @@ export interface SearchOptions {
   apiBaseUrl: string;
   fetch?: typeof globalThis.fetch;
   signal?: AbortSignal;
+  timeoutMs?: number;
 }
+
+const DEFAULT_TIMEOUT_MS = 8_000;
+const MAX_TIMEOUT_MS = 30_000;
 
 function endpointFor(baseUrl: string): string {
   let url: URL;
@@ -35,9 +39,10 @@ function endpointFor(baseUrl: string): string {
   if (url.protocol !== 'https:') {
     throw new OfferClientError('INVALID_CONFIGURATION', 'API base URL must use HTTPS');
   }
+  if (url.username !== '' || url.password !== '' || url.search !== '' || url.hash !== '') {
+    throw new OfferClientError('INVALID_CONFIGURATION', 'API base URL is unsafe');
+  }
   url.pathname = `${url.pathname.replace(/\/$/, '')}/v1/offers/search`;
-  url.search = '';
-  url.hash = '';
   return url.toString();
 }
 
@@ -46,20 +51,32 @@ export async function searchOffers(
   options: SearchOptions,
 ): Promise<OfferSearchResponse> {
   const endpoint = endpointFor(options.apiBaseUrl);
+  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > MAX_TIMEOUT_MS) {
+    throw new OfferClientError('INVALID_CONFIGURATION', 'Request timeout is invalid');
+  }
   if (!Value.Check(OfferSearchInputSchema, input)) {
     throw new OfferClientError('INVALID_INPUT', 'Offer search input is invalid');
   }
 
+  const timeoutController = new AbortController();
+  const timeout = setTimeout(() => timeoutController.abort(), timeoutMs);
+  const signal =
+    options.signal === undefined
+      ? timeoutController.signal
+      : AbortSignal.any([options.signal, timeoutController.signal]);
   let response: Response;
   try {
     response = await (options.fetch ?? globalThis.fetch)(endpoint, {
       method: 'POST',
       headers: { accept: 'application/json', 'content-type': 'application/json' },
       body: JSON.stringify(input),
-      ...(options.signal === undefined ? {} : { signal: options.signal }),
+      signal,
     });
   } catch {
     throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
+  } finally {
+    clearTimeout(timeout);
   }
   if (!response.ok) {
     throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');

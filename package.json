@@ -22,6 +22,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "security:boundary": "node scripts/check-boundary.mjs",
+    "smoke:contract": "pnpm build && node scripts/contract-smoke.mjs",
     "security:audit": "pnpm audit --audit-level high"
   },
   "dependencies": {
