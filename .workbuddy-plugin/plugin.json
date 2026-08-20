@@ -1,0 +1,9 @@
+{
+  "name": "agent-coupon-skill",
+  "version": "0.1.0",
+  "description": "Find current server-verified offers through a private coupon API.",
+  "author": { "name": "xiaojingfan-11" },
+  "repository": "https://github.com/xiaojingfan-11/agent-coupon-skill",
+  "license": "LicenseRef-Proprietary",
+  "skills": "./skills/"
+}

@@ -33,3 +33,7 @@ pnpm smoke:contract
 ```
 
 The smoke command prints aggregate status only. It does not print offer data, cursors, or redirect tokens.
+
+## WorkBuddy / CodeBuddy
+
+The repository includes `.workbuddy-plugin/plugin.json`, `.codex-plugin/plugin.json`, and a namespaced Skill under `skills/`. Set `OFFER_API_BASE_URL` to the production HTTPS API origin before loading the plugin. The bundled bridge accepts one bounded JSON search object, uses an eight-second timeout, and prints JSON only.
