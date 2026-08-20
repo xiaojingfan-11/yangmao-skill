@@ -1,0 +1,81 @@
+import { describe, expect, it, vi } from 'vitest';
+import { OfferClientError, searchOffers } from '../src/client.js';
+
+const validResponse = {
+  offers: [
+    {
+      id: 'public-offer-1',
+      title: 'Verified offer title',
+      summary: 'Verified summary',
+      category: 'food.coffee',
+      city: '530100',
+      currency: 'CNY',
+      salePriceMinor: 1990,
+      originalPriceMinor: 2990,
+      validUntil: '2026-08-21T00:00:00.000Z',
+      redirectUrl: 'https://go.example.invalid/r/token',
+      sourceLabel: 'Partner platform',
+      disclaimer: 'Final price and availability are determined by the destination page.',
+    },
+  ],
+  nextCursor: null,
+};
+
+describe('searchOffers', () => {
+  it('posts only bounded public fields to configured API base URL', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      new Response(JSON.stringify(validResponse), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
+    const response = await searchOffers(
+      { keyword: 'coffee', city: '530100', limit: 5 },
+      { apiBaseUrl: 'https://api.example.invalid', fetch },
+    );
+    expect(response).toEqual(validResponse);
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.example.invalid/v1/offers/search',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ keyword: 'coffee', city: '530100', limit: 5 }),
+      }),
+    );
+  });
+
+  it('rejects an insecure API origin before making a request', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>();
+    await expect(
+      searchOffers({ keyword: 'coffee' }, { apiBaseUrl: 'http://api.example.invalid', fetch }),
+    ).rejects.toMatchObject({ code: 'INVALID_CONFIGURATION' });
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('rejects more than five requested results', async () => {
+    await expect(
+      searchOffers({ keyword: 'coffee', limit: 6 }, { apiBaseUrl: 'https://api.example.invalid' }),
+    ).rejects.toMatchObject({ code: 'INVALID_INPUT' });
+  });
+
+  it('maps non-success responses to a stable safe error', async () => {
+    const fetch = vi
+      .fn<typeof globalThis.fetch>()
+      .mockResolvedValue(new Response('private failure', { status: 503 }));
+    await expect(
+      searchOffers({ keyword: 'coffee' }, { apiBaseUrl: 'https://api.example.invalid', fetch }),
+    ).rejects.toEqual(new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable'));
+  });
+
+  it('rejects malformed API data rather than displaying it', async () => {
+    const malformed = { ...validResponse, offers: [{ title: 'missing required fields' }] };
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      new Response(JSON.stringify(malformed), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
+    await expect(
+      searchOffers({ keyword: 'coffee' }, { apiBaseUrl: 'https://api.example.invalid', fetch }),
+    ).rejects.toMatchObject({ code: 'INVALID_RESPONSE' });
+  });
+});
