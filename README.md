@@ -37,3 +37,9 @@ The smoke command prints aggregate status only. It does not print offer data, cu
 ## WorkBuddy / CodeBuddy
 
 The repository includes `.workbuddy-plugin/plugin.json`, `.codex-plugin/plugin.json`, and a namespaced Skill under `skills/`. Set `OFFER_API_BASE_URL` to the production HTTPS API origin before loading the plugin. The bundled bridge accepts one bounded JSON search object, uses an eight-second timeout, and prints JSON only.
+
+## Cross-agent access
+
+Agents that cannot install this Skill can import the public OpenAPI contract from `https://api.richisme.xyz/openapi.json`. A browser-only client can open `https://luck.richisme.xyz/`; its selected city is stored on that device and included in the URL for sharing.
+
+MCP-capable desktop agents can launch the bundled stdio server with `pnpm mcp`. It exposes `get_today_offers` and `search_offers`; both use the same public API and contain no supplier credentials.

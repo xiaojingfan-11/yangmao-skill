@@ -6,6 +6,9 @@ The private backend owns supplier access, ranking, promotion-link generation, at
 
 - Endpoint: `POST /v1/offers/search`
 - Entry navigation: `GET /v1/offers/today` returns current total and nonempty category counts without generating promotion links
+- Canonical entry phrase: `今日优惠`; first use asks for a city, later requests reuse the conversation-confirmed city
+- Dashboard handoff: presentation ends with `https://luck.richisme.xyz/?city=<city>`
+- Scope: inventory without a supplier city is labeled `全国可用`, never city-local
 - Maximum results: 5
 - Pagination: opaque `cursor`; clients never inspect or modify it
 - Money: integer CNY minor units or null

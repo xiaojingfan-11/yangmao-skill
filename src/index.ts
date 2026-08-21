@@ -1,4 +1,5 @@
 export { OfferClientError, getTodayCatalog, searchOffers } from './client.js';
+export { createLuckMcpServer } from './mcp.js';
 export {
   OfferCatalogResponseSchema,
   OfferSearchInputSchema,

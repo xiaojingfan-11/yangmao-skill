@@ -14,6 +14,9 @@
       "import": "./dist/index.js"
     }
   },
+  "bin": {
+    "luck-coupon-mcp": "./dist/mcp.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write .",
@@ -23,10 +26,13 @@
     "test": "vitest run",
     "security:boundary": "node scripts/check-boundary.mjs",
     "smoke:contract": "pnpm build && node scripts/contract-smoke.mjs",
+    "mcp": "pnpm build && node dist/mcp.js",
     "security:audit": "pnpm audit --audit-level high"
   },
   "dependencies": {
-    "@sinclair/typebox": "0.34.52"
+    "@modelcontextprotocol/server": "2.0.0",
+    "@sinclair/typebox": "0.34.52",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "latest",
