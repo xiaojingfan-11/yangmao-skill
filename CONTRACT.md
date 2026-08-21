@@ -5,6 +5,7 @@ The private backend owns supplier access, ranking, promotion-link generation, at
 ## Compatibility baseline
 
 - Endpoint: `POST /v1/offers/search`
+- Entry navigation: `GET /v1/offers/today` returns current total and nonempty category counts without generating promotion links
 - Maximum results: 5
 - Pagination: opaque `cursor`; clients never inspect or modify it
 - Money: integer CNY minor units or null

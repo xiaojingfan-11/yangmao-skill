@@ -58,3 +58,25 @@ export const OfferSearchResponseSchema = Type.Object(
 export type OfferSearchInput = Static<typeof OfferSearchInputSchema>;
 export type PublicOffer = Static<typeof PublicOfferSchema>;
 export type OfferSearchResponse = Static<typeof OfferSearchResponseSchema>;
+
+export const OfferCatalogResponseSchema = Type.Object(
+  {
+    asOf: Type.String({ format: 'date-time' }),
+    city: Type.Union([Type.String({ maxLength: 32 }), Type.Null()]),
+    total: Type.Integer({ minimum: 0 }),
+    categories: Type.Array(
+      Type.Object(
+        {
+          code: Type.String({ minLength: 1, maxLength: 64 }),
+          label: Type.String({ minLength: 1, maxLength: 64 }),
+          emoji: Type.String({ minLength: 1, maxLength: 16 }),
+          count: Type.Integer({ minimum: 0 }),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+  },
+  { additionalProperties: false },
+);
+
+export type OfferCatalogResponse = Static<typeof OfferCatalogResponseSchema>;

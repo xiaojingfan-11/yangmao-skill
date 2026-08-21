@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { OfferClientError, searchOffers } from '../src/client.js';
+import { getTodayCatalog, OfferClientError, searchOffers } from '../src/client.js';
 
 const validResponse = {
   offers: [
@@ -117,6 +117,37 @@ describe('searchOffers', () => {
     );
     await expect(
       searchOffers({ keyword: 'coffee' }, { apiBaseUrl: 'https://api.example.invalid', fetch }),
+    ).rejects.toMatchObject({ code: 'INVALID_RESPONSE' });
+  });
+});
+
+describe('getTodayCatalog', () => {
+  it('gets the navigation catalog with an optional city', async () => {
+    const payload = {
+      asOf: '2026-08-21T12:00:00.000Z',
+      city: '530100',
+      total: 49,
+      categories: [{ code: 'delivery', label: '外卖闪购', emoji: '🛵', count: 49 }],
+    };
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      new Response(JSON.stringify(payload), { status: 200 }),
+    );
+
+    await expect(
+      getTodayCatalog({ apiBaseUrl: 'https://api.example.invalid', city: '530100', fetch }),
+    ).resolves.toEqual(payload);
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.example.invalid/v1/offers/today?city=530100',
+      expect.objectContaining({ headers: { accept: 'application/json' } }),
+    );
+  });
+
+  it('rejects malformed catalog data', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ total: -1, categories: [] }), { status: 200 }),
+    );
+    await expect(
+      getTodayCatalog({ apiBaseUrl: 'https://api.example.invalid', fetch }),
     ).rejects.toMatchObject({ code: 'INVALID_RESPONSE' });
   });
 });

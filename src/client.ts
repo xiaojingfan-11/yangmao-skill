@@ -2,8 +2,10 @@ import { Value } from '@sinclair/typebox/value';
 import {
   OfferSearchInputSchema,
   OfferSearchResponseSchema,
+  OfferCatalogResponseSchema,
   type OfferSearchInput,
   type OfferSearchResponse,
+  type OfferCatalogResponse,
 } from './schema.js';
 
 export type OfferClientErrorCode =
@@ -44,6 +46,13 @@ function endpointFor(baseUrl: string): string {
   }
   url.pathname = `${url.pathname.replace(/\/$/, '')}/v1/offers/search`;
   return url.toString();
+}
+
+function catalogEndpointFor(baseUrl: string, city?: string): string {
+  const endpoint = new URL(endpointFor(baseUrl));
+  endpoint.pathname = '/v1/offers/today';
+  endpoint.search = city === undefined ? '' : new URLSearchParams({ city }).toString();
+  return endpoint.toString();
 }
 
 export async function searchOffers(
@@ -89,6 +98,39 @@ export async function searchOffers(
     throw new OfferClientError('INVALID_RESPONSE', 'Offer service returned invalid data');
   }
   if (!Value.Check(OfferSearchResponseSchema, payload)) {
+    throw new OfferClientError('INVALID_RESPONSE', 'Offer service returned invalid data');
+  }
+  return payload;
+}
+
+export async function getTodayCatalog(
+  options: SearchOptions & { city?: string },
+): Promise<OfferCatalogResponse> {
+  if (options.city !== undefined && (options.city.length < 1 || options.city.length > 32)) {
+    throw new OfferClientError('INVALID_INPUT', 'City is invalid');
+  }
+  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > MAX_TIMEOUT_MS) {
+    throw new OfferClientError('INVALID_CONFIGURATION', 'Request timeout is invalid');
+  }
+  const timeoutController = new AbortController();
+  const timeout = setTimeout(() => timeoutController.abort(), timeoutMs);
+  let response: Response;
+  try {
+    response = await (options.fetch ?? globalThis.fetch)(catalogEndpointFor(options.apiBaseUrl, options.city), {
+      headers: { accept: 'application/json' },
+      signal: timeoutController.signal,
+    });
+  } catch {
+    throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
+  } finally {
+    clearTimeout(timeout);
+  }
+  if (!response.ok) throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
+  const payload: unknown = await response.json().catch(() => {
+    throw new OfferClientError('INVALID_RESPONSE', 'Offer service returned invalid data');
+  });
+  if (!Value.Check(OfferCatalogResponseSchema, payload)) {
     throw new OfferClientError('INVALID_RESPONSE', 'Offer service returned invalid data');
   }
   return payload;
