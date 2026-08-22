@@ -26,12 +26,12 @@ node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-catalog.mjs" '{"city":"530100"}'
 
 Use the city code supplied by the user/context; the example is not a default.
 
-Number every returned activity. Show exact title, summary, scope, and validity when returned. Since offers with no city are nationwide, label them `全国可用`. Never describe nationwide offers as local merchant offers. The catalog does not return claim links; when the user selects one activity, use the search bridge to obtain its first-party claim URL.
+Number every returned activity. Show exact title, summary, scope, and validity when returned. Under every activity add `[查看并领取](detailUrl)` using the returned URL unchanged. Since offers with no city are nationwide, label them `全国可用`. Never describe nationwide offers as local merchant offers.
 
 After all offer content, add this final line and nothing below it:
 
 ```text
-🌐 查看完整优惠看板：
+🌐 更多优惠点击打开：
 https://luck.richisme.xyz/
 ```
 

@@ -83,6 +83,7 @@ export const OfferCatalogResponseSchema = Type.Object(
           category: Type.String({ minLength: 1, maxLength: 64 }),
           city: Type.Union([Type.String({ maxLength: 32 }), Type.Null()]),
           validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+          detailUrl: Type.String({ format: 'uri', pattern: '^https://luck\\.richisme\\.xyz/' }),
         },
         { additionalProperties: false },
       ),

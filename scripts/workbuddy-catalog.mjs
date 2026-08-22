@@ -41,7 +41,8 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
     !payload.activities.every((item) => item && typeof item.title === 'string' &&
       typeof item.summary === 'string' && typeof item.category === 'string' &&
       (item.city === null || typeof item.city === 'string') &&
-      (item.validUntil === null || typeof item.validUntil === 'string'))
+      (item.validUntil === null || typeof item.validUntil === 'string') &&
+      typeof item.detailUrl === 'string' && /^https:\/\/luck\.richisme\.xyz\//u.test(item.detailUrl))
   ) throw new Error('INVALID_RESPONSE');
   return payload;
 }

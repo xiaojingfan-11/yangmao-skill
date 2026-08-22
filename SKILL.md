@@ -11,9 +11,9 @@ Use configured offer API. Never invent an offer from model memory.
 
 `今日优惠` is the canonical entry phrase. Ask which city the user wants. After the city reply, call the current catalog and present its `activities` array, capped at 20 offers.
 
-Do not respond with category counts or a category navigation menu. Present every returned activity directly as a numbered list. For each activity show its exact title, summary, `全国可用` or city-local scope, and validity when supplied. Catalog activities do not contain claim links; generate a verified link only after the user selects an activity. End with the number actually shown.
+Do not respond with category counts or a category navigation menu. Present every returned activity directly as a numbered list. Under each activity show its returned `detailUrl` as `查看并领取`. Show the exact title, summary, `全国可用` or city-local scope, and validity when supplied. Never construct or alter the URL.
 
-After presenting verified category counts or offers, put `https://luck.richisme.xyz/` on the final line under `🌐 查看完整优惠看板：`. Do not place content after this link.
+After presenting the activities, put `https://luck.richisme.xyz/` on the final line under `🌐 更多优惠点击打开：`. Do not place content after this link.
 
 ## Request
 

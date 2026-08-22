@@ -135,6 +135,7 @@ describe('getTodayCatalog', () => {
           category: 'delivery',
           city: null,
           validUntil: null,
+          detailUrl: 'https://luck.richisme.xyz/?search=%E5%A4%96%E5%8D%96',
         },
       ],
     };
