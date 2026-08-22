@@ -1,6 +1,6 @@
 ---
 name: yangmao-skill
-description: Use when a user wants current, verifiable coupons, discounts, group-buying offers, meal deals, or a safe redemption link.
+description: 一个帮你全网寻找优惠的工具，薅羊毛助手
 allowed-tools: Bash
 ---
 

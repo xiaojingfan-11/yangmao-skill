@@ -1,6 +1,6 @@
 ---
 name: yangmao-skill
-description: Use when a user wants current, curated takeaway coupons, brand ordering discounts, membership offers, or a verified redemption link.
+description: 一个帮你全网寻找优惠的工具，薅羊毛助手
 ---
 
 # Find Verifiable Offers
