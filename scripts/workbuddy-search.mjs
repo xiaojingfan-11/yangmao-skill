@@ -160,7 +160,7 @@ export async function run({ apiBaseUrl, fetchFn = globalThis.fetch, rawInput }) 
 async function main() {
   try {
     const payload = await run({
-      apiBaseUrl: process.env.OFFER_API_BASE_URL,
+      apiBaseUrl: process.env.OFFER_API_BASE_URL ?? 'https://api.richisme.xyz',
       rawInput: process.argv[2] ?? '',
     });
     process.stdout.write(`${JSON.stringify(payload)}\n`);

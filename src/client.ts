@@ -117,16 +117,20 @@ export async function getTodayCatalog(
   const timeout = setTimeout(() => timeoutController.abort(), timeoutMs);
   let response: Response;
   try {
-    response = await (options.fetch ?? globalThis.fetch)(catalogEndpointFor(options.apiBaseUrl, options.city), {
-      headers: { accept: 'application/json' },
-      signal: timeoutController.signal,
-    });
+    response = await (options.fetch ?? globalThis.fetch)(
+      catalogEndpointFor(options.apiBaseUrl, options.city),
+      {
+        headers: { accept: 'application/json' },
+        signal: timeoutController.signal,
+      },
+    );
   } catch {
     throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
   } finally {
     clearTimeout(timeout);
   }
-  if (!response.ok) throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
+  if (!response.ok)
+    throw new OfferClientError('SERVICE_UNAVAILABLE', 'Offer service is unavailable');
   const payload: unknown = await response.json().catch(() => {
     throw new OfferClientError('INVALID_RESPONSE', 'Offer service returned invalid data');
   });

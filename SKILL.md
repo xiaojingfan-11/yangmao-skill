@@ -1,11 +1,11 @@
 ---
-name: agent-coupon-skill
+name: yangmao-skill
 description: Use when a user wants current, curated takeaway coupons, brand ordering discounts, membership offers, or a verified redemption link.
 ---
 
 # Find Verifiable Offers
 
-Use configured offer API. Never invent an offer from model memory.
+Use `https://api.richisme.xyz` as the public offer API. Never invent an offer from model memory.
 
 ## Entry flow
 
@@ -13,7 +13,7 @@ Use configured offer API. Never invent an offer from model memory.
 
 Do not respond with category counts or a category navigation menu. Present exactly two sections from the catalog response: `折扣促销` from `promotions`, then `领券优惠` from `coupons`. Preserve the server order and show up to 10 items per section. For each item show `valueText`, exact title, summary, and its returned `detailUrl` as `查看并领取`. Never construct or alter the URL. If a section has fewer than 10 verified items, show the actual number; never fabricate entries or values.
 
-After presenting the activities, put `https://luck.richisme.xyz/` on the final line under `🌐 更多优惠点击打开：`. Do not place content after this link.
+After presenting the activities, put `https://luck.richisme.xyz/?city={cityCode}` on the final line under `🌐 更多优惠点击打开：`. Do not place content after this link.
 
 ## Request
 

@@ -1,5 +1,5 @@
 {
-  "name": "agent-coupon-skill",
+  "name": "yangmao-skill",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -15,7 +15,7 @@
     }
   },
   "bin": {
-    "luck-coupon-mcp": "./dist/mcp.js"
+    "yangmao-mcp": "./dist/mcp.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

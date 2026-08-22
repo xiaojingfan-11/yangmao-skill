@@ -9,7 +9,8 @@ function endpointFor(raw, city) {
     url.pathname !== '/' ||
     url.search !== '' ||
     url.hash !== ''
-  ) throw new Error('INVALID_CONFIGURATION');
+  )
+    throw new Error('INVALID_CONFIGURATION');
   url.pathname = '/v1/offers/today';
   if (city !== undefined) url.searchParams.set('city', city);
   return url;
@@ -17,40 +18,78 @@ function endpointFor(raw, city) {
 
 export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) {
   let input;
-  try { input = JSON.parse(rawInput); } catch { throw new Error('INVALID_INPUT'); }
+  try {
+    input = JSON.parse(rawInput);
+  } catch {
+    throw new Error('INVALID_INPUT');
+  }
   if (
-    input === null || typeof input !== 'object' || Array.isArray(input) ||
+    input === null ||
+    typeof input !== 'object' ||
+    Array.isArray(input) ||
     Object.keys(input).some((key) => key !== 'city') ||
-    (input.city !== undefined && (typeof input.city !== 'string' || input.city.length < 1 || input.city.length > 32))
-  ) throw new Error('INVALID_INPUT');
+    (input.city !== undefined &&
+      (typeof input.city !== 'string' || input.city.length < 1 || input.city.length > 32))
+  )
+    throw new Error('INVALID_INPUT');
   let response;
   try {
     response = await fetchFn(endpointFor(apiBaseUrl, input.city), {
-      headers: { accept: 'application/json' }, signal: AbortSignal.timeout(8_000),
+      headers: { accept: 'application/json' },
+      signal: AbortSignal.timeout(8_000),
     });
-  } catch { throw new Error('SERVICE_UNAVAILABLE'); }
+  } catch {
+    throw new Error('SERVICE_UNAVAILABLE');
+  }
   if (!response.ok) throw new Error('SERVICE_UNAVAILABLE');
-  const payload = await response.json().catch(() => { throw new Error('INVALID_RESPONSE'); });
+  const payload = await response.json().catch(() => {
+    throw new Error('INVALID_RESPONSE');
+  });
   if (
-    payload === null || typeof payload !== 'object' || !Number.isInteger(payload.total) ||
-    payload.total < 0 || !Array.isArray(payload.categories) ||
-    !payload.categories.every((item) => item && typeof item.code === 'string' &&
-      typeof item.label === 'string' && typeof item.emoji === 'string' &&
-      Number.isInteger(item.count) && item.count >= 0) ||
+    payload === null ||
+    typeof payload !== 'object' ||
+    !Number.isInteger(payload.total) ||
+    payload.total < 0 ||
+    !Array.isArray(payload.categories) ||
+    !payload.categories.every(
+      (item) =>
+        item &&
+        typeof item.code === 'string' &&
+        typeof item.label === 'string' &&
+        typeof item.emoji === 'string' &&
+        Number.isInteger(item.count) &&
+        item.count >= 0,
+    ) ||
     !Array.isArray(payload.activities) ||
-    !payload.activities.every((item) => item && typeof item.title === 'string' &&
-      typeof item.summary === 'string' && typeof item.category === 'string' &&
-      (item.city === null || typeof item.city === 'string') &&
-      (item.validUntil === null || typeof item.validUntil === 'string') &&
-      typeof item.detailUrl === 'string' && /^https:\/\/luck\.richisme\.xyz\//u.test(item.detailUrl))
-  ) throw new Error('INVALID_RESPONSE');
-  for (const key of ['promotions', 'coupons']) {
-    if (!Array.isArray(payload[key]) || payload[key].length > 10 ||
-      !payload[key].every((item) => item && typeof item.title === 'string' &&
-        typeof item.summary === 'string' && typeof item.valueText === 'string' &&
+    !payload.activities.every(
+      (item) =>
+        item &&
+        typeof item.title === 'string' &&
+        typeof item.summary === 'string' &&
+        typeof item.category === 'string' &&
         (item.city === null || typeof item.city === 'string') &&
         (item.validUntil === null || typeof item.validUntil === 'string') &&
-        typeof item.detailUrl === 'string' && /^https:\/\/luck\.richisme\.xyz\//u.test(item.detailUrl)))
+        typeof item.detailUrl === 'string' &&
+        /^https:\/\/go\.richisme\.xyz\/o\//u.test(item.detailUrl),
+    )
+  )
+    throw new Error('INVALID_RESPONSE');
+  for (const key of ['promotions', 'coupons']) {
+    if (
+      !Array.isArray(payload[key]) ||
+      payload[key].length > 10 ||
+      !payload[key].every(
+        (item) =>
+          item &&
+          typeof item.title === 'string' &&
+          typeof item.summary === 'string' &&
+          typeof item.valueText === 'string' &&
+          (item.city === null || typeof item.city === 'string') &&
+          (item.validUntil === null || typeof item.validUntil === 'string') &&
+          typeof item.detailUrl === 'string' &&
+          /^https:\/\/go\.richisme\.xyz\/o\//u.test(item.detailUrl),
+      )
+    )
       throw new Error('INVALID_RESPONSE');
   }
   return payload;
@@ -58,10 +97,15 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
 
 async function main() {
   try {
-    const result = await run({ apiBaseUrl: process.env.OFFER_API_BASE_URL, rawInput: process.argv[2] ?? '{}' });
+    const result = await run({
+      apiBaseUrl: process.env.OFFER_API_BASE_URL ?? 'https://api.richisme.xyz',
+      rawInput: process.argv[2] ?? '{}',
+    });
     process.stdout.write(`${JSON.stringify(result)}\n`);
   } catch (error) {
-    process.stdout.write(`${JSON.stringify({ error: error instanceof Error ? error.message : 'SERVICE_UNAVAILABLE' })}\n`);
+    process.stdout.write(
+      `${JSON.stringify({ error: error instanceof Error ? error.message : 'SERVICE_UNAVAILABLE' })}\n`,
+    );
     process.exitCode = 1;
   }
 }

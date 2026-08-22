@@ -1,10 +1,42 @@
-# Agent Coupon Skill
+# yangmao-skill
 
-Public thin client for querying current, server-verified offers. It does not claim coupons, log in, order, pay, redeem, generate partner links, or contain private backend logic.
+一个公开源码、禁止商用的优惠导购 Skill。用户发送“今日优惠”，Skill 会询问或沿用当前城市，实时读取服务端精选优惠，并返回：
 
-## Development
+- 今日最高折扣
+- 今日大额优惠券
+- 每个商品独立的二维码领取页及“在当前设备直接打开”入口
+- 完整优惠看板
 
-Requires Node.js 24 LTS and pnpm 11.
+商品、排序、上下架及推广链接均由云端更新。用户安装一次即可持续获得最新内容，无需因商品变化重新安装。仓库不包含 CPS 密钥、供应商适配、佣金、订单或私有后端代码。
+
+## 安装
+
+```bash
+git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/yangmao-skill
+```
+
+安装后重启 Agent/Codex，使其重新发现 Skill。
+
+## 使用
+
+```text
+今日优惠
+```
+
+首次使用时按提示输入城市，例如“昆明”。后续可直接说“今日优惠”或“切换城市”。
+
+完整看板：https://luck.richisme.xyz/
+
+## 支持的接入方式
+
+- Codex/兼容 Skills 的 Agent：读取根目录 `SKILL.md`
+- WorkBuddy/CodeBuddy：使用插件清单和 `skills/yangmao-skill/SKILL.md`
+- MCP Agent：运行 `pnpm mcp`
+- 其他 Agent：导入 `https://api.richisme.xyz/openapi.json`
+
+## 开发验证
+
+需要 Node.js 24 LTS 与 pnpm 11：
 
 ```bash
 pnpm install --frozen-lockfile
@@ -14,32 +46,8 @@ pnpm build
 pnpm security:boundary
 ```
 
-Configure an HTTPS API base URL in the host application. Never commit credentials.
+## 许可证
 
-## Runtime contract
+本项目采用 PolyForm Noncommercial License 1.0.0。允许个人学习、研究、测试和其他非商业用途；禁止商业使用。商业授权请联系项目所有者。
 
-- API base URL must use HTTPS and contain no credentials, query, or fragment.
-- Client requests `POST /v1/offers/search` with public fields only.
-- Default timeout is 8 seconds; callers may set `timeoutMs` from 1 to 30,000.
-- Responses are rejected unless they match the bounded public schema.
-- Only server-returned HTTPS redirect URLs may be shown or opened.
-
-After deploying the private API and first-party redirect domain, verify their public contract:
-
-```powershell
-$env:OFFER_API_BASE_URL = 'https://api.example.com'
-$env:EXPECTED_REDIRECT_ORIGIN = 'https://go.example.com'
-pnpm smoke:contract
-```
-
-The smoke command prints aggregate status only. It does not print offer data, cursors, or redirect tokens.
-
-## WorkBuddy / CodeBuddy
-
-The repository includes `.workbuddy-plugin/plugin.json`, `.codex-plugin/plugin.json`, and a namespaced Skill under `skills/`. Set `OFFER_API_BASE_URL` to the production HTTPS API origin before loading the plugin. The bundled bridge accepts one bounded JSON search object, uses an eight-second timeout, and prints JSON only.
-
-## Cross-agent access
-
-Agents that cannot install this Skill can import the public OpenAPI contract from `https://api.richisme.xyz/openapi.json`. A browser-only client can open `https://luck.richisme.xyz/`; its selected city is stored on that device and included in the URL for sharing.
-
-MCP-capable desktop agents can launch the bundled stdio server with `pnpm mcp`. It exposes `get_today_offers` and `search_offers`; both use the same public API and contain no supplier credentials.
+这属于“公开源码（source-available）”，不是 OSI 定义的开源软件。

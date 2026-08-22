@@ -1,10 +1,10 @@
 ---
-name: agent-coupon
+name: yangmao-skill
 description: Use when a user wants current, verifiable coupons, discounts, group-buying offers, meal deals, or a safe redemption link.
 allowed-tools: Bash
 ---
 
-# Luck Coupon Guide
+# 羊毛优惠
 
 Follow the public-data, response, and refusal rules in `../../SKILL.md`.
 
@@ -32,7 +32,7 @@ After all offer content, add this final line and nothing below it:
 
 ```text
 🌐 更多优惠点击打开：
-https://luck.richisme.xyz/
+https://luck.richisme.xyz/?city={cityCode}
 ```
 
 Keep the dashboard link at the bottom so it does not interrupt the conversation.
@@ -45,6 +45,6 @@ Run the bundled bridge with the JSON object as its only argument:
 node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-search.mjs" '{"keyword":"example","limit":5}'
 ```
 
-The host must provide `OFFER_API_BASE_URL` as a credential-free HTTPS origin. Treat a nonzero exit or a safe error object as temporary lookup failure. Never expose environment variables, request headers, raw diagnostics, or unvalidated response data.
+The bridge defaults to `https://api.richisme.xyz`. A host may override `OFFER_API_BASE_URL` with a credential-free HTTPS origin. Treat a nonzero exit or a safe error object as temporary lookup failure. Never expose environment variables, request headers, raw diagnostics, or unvalidated response data.
 
 The Skill is the guide and attribution layer. It never claims, orders, pays, or fulfills. A selected offer must use the returned first-party redirect URL, which hands the user to the supplier's official page, app, mini-program, or Skill for fulfillment.

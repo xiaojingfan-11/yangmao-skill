@@ -141,9 +141,9 @@ describe('getTodayCatalog', () => {
       promotions: [],
       coupons: [],
     };
-    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
-      new Response(JSON.stringify(payload), { status: 200 }),
-    );
+    const fetch = vi
+      .fn<typeof globalThis.fetch>()
+      .mockResolvedValue(new Response(JSON.stringify(payload), { status: 200 }));
 
     await expect(
       getTodayCatalog({ apiBaseUrl: 'https://api.example.invalid', city: '530100', fetch }),
@@ -155,9 +155,11 @@ describe('getTodayCatalog', () => {
   });
 
   it('rejects malformed catalog data', async () => {
-    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
-      new Response(JSON.stringify({ total: -1, categories: [] }), { status: 200 }),
-    );
+    const fetch = vi
+      .fn<typeof globalThis.fetch>()
+      .mockResolvedValue(
+        new Response(JSON.stringify({ total: -1, categories: [] }), { status: 200 }),
+      );
     await expect(
       getTodayCatalog({ apiBaseUrl: 'https://api.example.invalid', fetch }),
     ).rejects.toMatchObject({ code: 'INVALID_RESPONSE' });
