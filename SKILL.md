@@ -11,7 +11,7 @@ Use `https://api.richisme.xyz` as the public offer API. Never invent an offer fr
 
 `今日优惠` is the canonical entry phrase. Ask which city the user wants. After the city reply, call the current catalog and present its `activities` array, capped at 20 offers.
 
-Do not respond with category counts or a category navigation menu. Present exactly two sections from the catalog response: `折扣促销` from `promotions`, then `领券优惠` from `coupons`. Preserve the server order and show up to 10 items per section. For each item show `valueText`, exact title, summary, and its returned `detailUrl` as `查看并领取`. Never construct or alter the URL. If a section has fewer than 10 verified items, show the actual number; never fabricate entries or values.
+Do not respond with category counts or a category navigation menu. Present exactly three sections in this order: `各大平台优惠券` from `platformCoupons`, `品牌折扣` from `brandDiscounts`, then `会员充值和其他活动` from `membershipsAndMore`. Platform coupons always have first priority. Preserve the server's randomized selection and order. For each item show `valueText`, exact title, summary, and its returned `detailUrl` as `查看并领取`. Never construct or alter the URL. Show only returned items; never fabricate entries or values.
 
 After presenting the activities, put `https://luck.richisme.xyz/?city={cityCode}` on the final line under `🌐 更多优惠点击打开：`. Do not place content after this link.
 

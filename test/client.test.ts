@@ -140,6 +140,9 @@ describe('getTodayCatalog', () => {
       ],
       promotions: [],
       coupons: [],
+      platformCoupons: [],
+      brandDiscounts: [],
+      membershipsAndMore: [],
     };
     const fetch = vi
       .fn<typeof globalThis.fetch>()

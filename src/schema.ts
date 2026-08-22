@@ -117,6 +117,39 @@ export const OfferCatalogResponseSchema = Type.Object(
       ),
       { maxItems: 10 },
     ),
+    platformCoupons: Type.Array(
+      Type.Object({
+        title: Type.String(),
+        summary: Type.String(),
+        valueText: Type.String(),
+        city: Type.Union([Type.String(), Type.Null()]),
+        validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+        detailUrl: Type.String({ format: 'uri', pattern: '^https://luck\\.richisme\\.xyz/' }),
+      }),
+      { maxItems: 10 },
+    ),
+    brandDiscounts: Type.Array(
+      Type.Object({
+        title: Type.String(),
+        summary: Type.String(),
+        valueText: Type.String(),
+        city: Type.Union([Type.String(), Type.Null()]),
+        validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+        detailUrl: Type.String({ format: 'uri', pattern: '^https://luck\\.richisme\\.xyz/' }),
+      }),
+      { maxItems: 6 },
+    ),
+    membershipsAndMore: Type.Array(
+      Type.Object({
+        title: Type.String(),
+        summary: Type.String(),
+        valueText: Type.String(),
+        city: Type.Union([Type.String(), Type.Null()]),
+        validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+        detailUrl: Type.String({ format: 'uri', pattern: '^https://luck\\.richisme\\.xyz/' }),
+      }),
+      { maxItems: 4 },
+    ),
   },
   { additionalProperties: false },
 );

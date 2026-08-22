@@ -74,10 +74,14 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
     )
   )
     throw new Error('INVALID_RESPONSE');
-  for (const key of ['promotions', 'coupons']) {
+  for (const [key, limit] of [
+    ['platformCoupons', 10],
+    ['brandDiscounts', 6],
+    ['membershipsAndMore', 4],
+  ]) {
     if (
       !Array.isArray(payload[key]) ||
-      payload[key].length > 10 ||
+      payload[key].length > limit ||
       !payload[key].every(
         (item) =>
           item &&
