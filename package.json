@@ -1,0 +1,48 @@
+{
+  "name": "yangmao-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=11 <12"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "yangmao-mcp": "./dist/mcp.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "security:boundary": "node scripts/check-boundary.mjs",
+    "smoke:contract": "pnpm build && node scripts/contract-smoke.mjs",
+    "mcp": "pnpm build && node dist/mcp.js",
+    "security:audit": "pnpm audit --audit-level high"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "@sinclair/typebox": "0.34.52",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/node": "24.13.3",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "globals": "latest",
+    "prettier": "latest",
+    "typescript": "6.0.3",
+    "typescript-eslint": "latest",
+    "vitest": "4.1.11"
+  }
+}

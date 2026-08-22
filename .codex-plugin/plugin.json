@@ -1,0 +1,19 @@
+{
+  "name": "yangmao-skill",
+  "version": "0.1.0",
+  "description": "Find current server-verified offers through a private coupon API.",
+  "author": { "name": "xiaojingfan-11" },
+  "repository": "https://github.com/xiaojingfan-11/yangmao-skill",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "羊毛优惠",
+    "shortDescription": "Find current verified offers",
+    "longDescription": "Searches a private offer service and returns bounded public offer fields with first-party redirect links.",
+    "developerName": "xiaojingfan-11",
+    "category": "Shopping",
+    "capabilities": ["Interactive"],
+    "websiteURL": "https://github.com/xiaojingfan-11/yangmao-skill",
+    "defaultPrompt": ["帮我找当前可验证的优惠", "查找附近适合两个人的优惠"]
+  }
+}
