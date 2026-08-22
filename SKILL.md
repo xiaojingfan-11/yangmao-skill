@@ -1,9 +1,9 @@
 ---
-name: yangmao-skill
-description: 一个帮你全网寻找优惠的工具，薅羊毛助手
+name: bao-youhui
+description: 包优惠，一个帮你全网寻找外卖、闪购、会员充值、酒店机票等优惠的工具
 ---
 
-# Find Verifiable Offers
+# 包优惠
 
 Use `https://api.richisme.xyz` as the public offer API. Never invent an offer from model memory.
 

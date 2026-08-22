@@ -1,6 +1,6 @@
-# yangmao-skill
+# 包优惠
 
-一个帮你全网寻找优惠的 Skill，覆盖外卖、闪购、会员充值、酒店机票等优惠业务，是你的薅羊毛助手。公开源码、禁止商用；用户发送“今日优惠”，Skill 会询问或沿用当前城市，实时读取服务端精选优惠，并返回：
+“包优惠”是一个帮你全网寻找优惠的 Skill，覆盖外卖、闪购、会员充值、酒店机票等优惠业务。公开源码、禁止商用；用户发送“今日优惠”，Skill 会询问或沿用当前城市，实时读取服务端精选优惠，并返回：
 
 - 今日最高折扣
 - 今日大额优惠券
@@ -12,7 +12,7 @@
 ## Codex 安装
 
 ```bash
-git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/yangmao-skill
+git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/bao-youhui
 ```
 
 安装后重启 Agent/Codex，使其重新发现 Skill。
@@ -20,7 +20,7 @@ git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/ya
 也可以直接把仓库地址发给支持 GitHub Skill 安装的 Agent：
 
 ```text
-请安装并启用这个 Skill：
+请从下面的 GitHub 仓库安装并启用“包优惠” Skill。安装后读取仓库根目录 SKILL.md；每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据：
 https://github.com/xiaojingfan-11/yangmao-skill
 ```
 
@@ -29,7 +29,7 @@ https://github.com/xiaojingfan-11/yangmao-skill
 支持 `SKILL.md` 的 Agent：下载或克隆本仓库，将根目录 `SKILL.md` 导入其 Skills 目录，然后重启或刷新 Skills。
 
 ```bash
-git clone https://github.com/xiaojingfan-11/yangmao-skill.git
+git clone https://github.com/xiaojingfan-11/yangmao-skill.git bao-youhui
 ```
 
 不支持 `SKILL.md`、但支持 HTTP API 或 OpenAPI 的 Agent：导入以下公开接口定义，并把“今日优惠”配置为入口指令：
@@ -47,15 +47,15 @@ https://api.richisme.xyz/openapi.json
 1. 打开豆包 App，新建对话。
 2. 选择底部的“创建技能”。
 3. 发送下面的创建要求。
-4. 创建完成后启用“薅羊毛助手”，在普通对话中发送“今日优惠”。
+4. 创建完成后启用“包优惠”，在普通对话中发送“今日优惠”。
 
 ```text
-请创建一个名为“薅羊毛助手”的技能。
+请创建一个名为“包优惠”的技能。
 
 触发指令“今日优惠”时，实时 GET：
 https://api.richisme.xyz/v1/offers/today?city=530100
 
-把 promotions 展示为“今日折扣促销”，把 coupons 展示为“今日领券优惠”，每组最多10条。每项显示 title、summary、valueText；city 为 null 时标注“全国可用”；使用 detailUrl 生成可点击的“查看并领取”。禁止编造、缓存或复用上一次结果。
+把 promotions 展示为“今日折扣促销”，把 coupons 展示为“今日领券优惠”，每组最多10条。每项显示 title、summary、valueText；city 为 null 时标注“全国可用”；使用 detailUrl 生成可点击的“查看并领取”。每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据；禁止编造接口未返回的内容。
 
 精选推荐结束后提示：
 没有找到想要的商品？可以继续问我，例如“会员充值”“携程优惠”“咖啡”“外卖红包”“品牌点餐”“酒店机票”或“酒吧优惠”。
@@ -87,7 +87,7 @@ Content-Type: application/json
 ## 支持的接入方式
 
 - Codex/兼容 Skills 的 Agent：读取根目录 `SKILL.md`
-- WorkBuddy/CodeBuddy：使用插件清单和 `skills/yangmao-skill/SKILL.md`
+- WorkBuddy/CodeBuddy：使用插件清单和 `skills/bao-youhui/SKILL.md`
 - MCP Agent：运行 `pnpm mcp`
 - 豆包手机端：使用“创建技能”生成 API 调用脚本
 - 其他 Agent：读取根目录 `SKILL.md`，或导入 `https://api.richisme.xyz/openapi.json`
