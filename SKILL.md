@@ -1,6 +1,6 @@
 ---
 name: agent-coupon-skill
-description: Use when a user wants current, verifiable coupons, discounts, group-buying offers, meal deals, or a redemption link filtered by city, brand, category, budget, date, or party size.
+description: Use when a user wants current, curated takeaway coupons, brand ordering discounts, membership offers, or a verified redemption link.
 ---
 
 # Find Verifiable Offers
@@ -9,9 +9,9 @@ Use configured offer API. Never invent an offer from model memory.
 
 ## Entry flow
 
-`今日优惠` is the canonical entry phrase. If the user has not confirmed a city in the current conversation, ask for one before searching. Remember only the conversation-level city; do not claim durable cross-device storage. Allow `切换城市` at any time.
+`今日优惠` is the canonical entry phrase. Call the current catalog immediately; nationwide takeaway and brand offers do not require a city first. Ask for a city only if the user explicitly requests city-local inventory.
 
-After presenting verified category counts or offers, put `https://luck.richisme.xyz/?city=<URL-encoded-city>` on the final line under `🌐 查看完整优惠看板：`. Do not place content after this link.
+After presenting verified category counts or offers, put `https://luck.richisme.xyz/` on the final line under `🌐 查看完整优惠看板：`. Do not place content after this link.
 
 ## Request
 
