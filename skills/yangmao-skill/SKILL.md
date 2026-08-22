@@ -1,10 +1,10 @@
 ---
-name: bao-youhui
-description: 包优惠，一个帮你全网寻找外卖、闪购、会员充值、酒店机票等优惠的工具
+name: yangmao-skill
+description: 薅羊毛小助手，一个帮你全网寻找外卖、闪购、会员充值、酒店机票等优惠的工具
 allowed-tools: Bash
 ---
 
-# 包优惠
+# 薅羊毛小助手
 
 Follow the public-data, response, and refusal rules in `../../SKILL.md`.
 

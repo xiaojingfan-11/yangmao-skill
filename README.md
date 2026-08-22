@@ -1,6 +1,6 @@
-# 包优惠
+# 薅羊毛小助手
 
-“包优惠”是一个帮你全网寻找优惠的 Skill，覆盖外卖、闪购、会员充值、酒店机票等优惠业务。公开源码、禁止商用；用户发送“今日优惠”，Skill 会询问或沿用当前城市，实时读取服务端精选优惠，并返回：
+“薅羊毛小助手”是一个帮你全网寻找优惠的 Skill，覆盖外卖、闪购、会员充值、酒店机票等优惠业务。公开源码、禁止商用；用户发送“今日优惠”，Skill 会询问或沿用当前城市，实时读取服务端精选优惠，并返回：
 
 - 今日最高折扣
 - 今日大额优惠券
@@ -12,7 +12,7 @@
 ## Codex 安装
 
 ```bash
-git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/bao-youhui
+git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/yangmao-skill
 ```
 
 安装后重启 Agent/Codex，使其重新发现 Skill。
@@ -20,7 +20,7 @@ git clone https://github.com/xiaojingfan-11/yangmao-skill.git ~/.codex/skills/ba
 也可以直接把仓库地址发给支持 GitHub Skill 安装的 Agent：
 
 ```text
-请从下面的 GitHub 仓库安装并启用“包优惠” Skill。安装后读取仓库根目录 SKILL.md；每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据：
+请从下面的 GitHub 仓库安装并启用“薅羊毛小助手” Skill。安装后读取仓库根目录 SKILL.md；每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据：
 https://github.com/xiaojingfan-11/yangmao-skill
 ```
 
@@ -29,7 +29,7 @@ https://github.com/xiaojingfan-11/yangmao-skill
 支持 `SKILL.md` 的 Agent：下载或克隆本仓库，将根目录 `SKILL.md` 导入其 Skills 目录，然后重启或刷新 Skills。
 
 ```bash
-git clone https://github.com/xiaojingfan-11/yangmao-skill.git bao-youhui
+git clone https://github.com/xiaojingfan-11/yangmao-skill.git yangmao-skill
 ```
 
 不支持 `SKILL.md`、但支持 HTTP API 或 OpenAPI 的 Agent：导入以下公开接口定义，并把“今日优惠”配置为入口指令：
@@ -87,7 +87,7 @@ Content-Type: application/json
 ## 支持的接入方式
 
 - Codex/兼容 Skills 的 Agent：读取根目录 `SKILL.md`
-- WorkBuddy/CodeBuddy：使用插件清单和 `skills/bao-youhui/SKILL.md`
+- WorkBuddy/CodeBuddy：使用插件清单和 `skills/yangmao-skill/SKILL.md`
 - MCP Agent：运行 `pnpm mcp`
 - 豆包手机端：使用“创建技能”生成 API 调用脚本
 - 其他 Agent：读取根目录 `SKILL.md`，或导入 `https://api.richisme.xyz/openapi.json`

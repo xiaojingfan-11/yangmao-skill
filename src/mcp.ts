@@ -11,7 +11,7 @@ export function createLuckMcpServer(
   apiBaseUrl = process.env.OFFER_API_BASE_URL ?? defaultApiBaseUrl,
 ) {
   const server = new McpServer(
-    { name: 'bao-youhui', version: '1.0.0' },
+    { name: 'yangmao-skill', version: '1.0.0' },
     {
       instructions:
         'Use get_today_offers after the user confirms a city. Offers with null city are nationwide. Never claim fulfillment; open only returned redirectUrl values.',

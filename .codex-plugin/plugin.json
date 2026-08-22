@@ -1,5 +1,5 @@
 {
-  "name": "bao-youhui",
+  "name": "yangmao-skill",
   "version": "0.1.0",
   "description": "Find current server-verified offers through a private coupon API.",
   "author": { "name": "xiaojingfan-11" },
@@ -7,7 +7,7 @@
   "license": "PolyForm-Noncommercial-1.0.0",
   "skills": "./skills/",
   "interface": {
-    "displayName": "包优惠",
+    "displayName": "薅羊毛小助手",
     "shortDescription": "Find current verified offers",
     "longDescription": "Searches a private offer service and returns bounded public offer fields with first-party redirect links.",
     "developerName": "xiaojingfan-11",
