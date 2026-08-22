@@ -10,7 +10,7 @@ The private backend owns supplier access, ranking, promotion-link generation, at
 - Dashboard handoff: presentation ends with `https://luck.richisme.xyz/`
 - Catalog updates: publication changes are server-side and require no installed-Skill update
 - Scope: inventory without a supplier city is labeled `全国可用`, never city-local
-- Maximum results per request: 5; canonical entry follows opaque cursors up to 20 displayed activities
+- Search maximum: 5 per request; the canonical catalog entry lists up to 20 activity summaries without generating links
 - Pagination: opaque `cursor`; clients never inspect or modify it
 - Money: integer CNY minor units or null
 - Redirect: HTTPS URL returned by the backend; clients never construct supplier URLs

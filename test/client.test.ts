@@ -128,6 +128,15 @@ describe('getTodayCatalog', () => {
       city: '530100',
       total: 49,
       categories: [{ code: 'delivery', label: '外卖闪购', emoji: '🛵', count: 49 }],
+      activities: [
+        {
+          title: '外卖红包',
+          summary: '天天领',
+          category: 'delivery',
+          city: null,
+          validUntil: null,
+        },
+      ],
     };
     const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
       new Response(JSON.stringify(payload), { status: 200 }),

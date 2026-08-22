@@ -75,6 +75,19 @@ export const OfferCatalogResponseSchema = Type.Object(
         { additionalProperties: false },
       ),
     ),
+    activities: Type.Array(
+      Type.Object(
+        {
+          title: Type.String({ minLength: 1, maxLength: 200 }),
+          summary: Type.String({ maxLength: 1000 }),
+          category: Type.String({ minLength: 1, maxLength: 64 }),
+          city: Type.Union([Type.String({ maxLength: 32 }), Type.Null()]),
+          validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+        },
+        { additionalProperties: false },
+      ),
+      { maxItems: 20 },
+    ),
   },
   { additionalProperties: false },
 );

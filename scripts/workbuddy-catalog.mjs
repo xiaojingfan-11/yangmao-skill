@@ -36,7 +36,12 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
     payload.total < 0 || !Array.isArray(payload.categories) ||
     !payload.categories.every((item) => item && typeof item.code === 'string' &&
       typeof item.label === 'string' && typeof item.emoji === 'string' &&
-      Number.isInteger(item.count) && item.count >= 0)
+      Number.isInteger(item.count) && item.count >= 0) ||
+    !Array.isArray(payload.activities) ||
+    !payload.activities.every((item) => item && typeof item.title === 'string' &&
+      typeof item.summary === 'string' && typeof item.category === 'string' &&
+      (item.city === null || typeof item.city === 'string') &&
+      (item.validUntil === null || typeof item.validUntil === 'string'))
   ) throw new Error('INVALID_RESPONSE');
   return payload;
 }
