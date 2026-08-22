@@ -138,6 +138,8 @@ describe('getTodayCatalog', () => {
           detailUrl: 'https://luck.richisme.xyz/?search=%E5%A4%96%E5%8D%96',
         },
       ],
+      promotions: [],
+      coupons: [],
     };
     const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
       new Response(JSON.stringify(payload), { status: 200 }),

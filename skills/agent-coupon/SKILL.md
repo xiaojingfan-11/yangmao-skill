@@ -16,7 +16,7 @@ When the entry phrase is used:
 
 1. Ask `你想查看哪个城市的优惠？` unless the conversation already contains the city.
 2. After the city reply, call the catalog bridge with that city and read its `activities` array.
-3. Present every returned activity directly. Do not show category counts and do not ask the user to choose a category first.
+3. Present two blocks only: `折扣促销` using `promotions`, then `领券优惠` using `coupons`. Preserve server ranking; do not show category navigation.
 
 Run the catalog bridge:
 
@@ -26,7 +26,7 @@ node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-catalog.mjs" '{"city":"530100"}'
 
 Use the city code supplied by the user/context; the example is not a default.
 
-Number every returned activity. Show exact title, summary, scope, and validity when returned. Under every activity add `[查看并领取](detailUrl)` using the returned URL unchanged. Since offers with no city are nationwide, label them `全国可用`. Never describe nationwide offers as local merchant offers.
+Number the items separately in each block. Show `valueText`, exact title, and summary. Under every item add `[查看并领取](detailUrl)` using the returned URL unchanged. Show at most 10 per block. If fewer are returned, show fewer; never infer a discount or coupon amount from prose.
 
 After all offer content, add this final line and nothing below it:
 

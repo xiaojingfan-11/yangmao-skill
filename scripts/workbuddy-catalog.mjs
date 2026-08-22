@@ -44,6 +44,15 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
       (item.validUntil === null || typeof item.validUntil === 'string') &&
       typeof item.detailUrl === 'string' && /^https:\/\/luck\.richisme\.xyz\//u.test(item.detailUrl))
   ) throw new Error('INVALID_RESPONSE');
+  for (const key of ['promotions', 'coupons']) {
+    if (!Array.isArray(payload[key]) || payload[key].length > 10 ||
+      !payload[key].every((item) => item && typeof item.title === 'string' &&
+        typeof item.summary === 'string' && typeof item.valueText === 'string' &&
+        (item.city === null || typeof item.city === 'string') &&
+        (item.validUntil === null || typeof item.validUntil === 'string') &&
+        typeof item.detailUrl === 'string' && /^https:\/\/luck\.richisme\.xyz\//u.test(item.detailUrl)))
+      throw new Error('INVALID_RESPONSE');
+  }
   return payload;
 }
 
