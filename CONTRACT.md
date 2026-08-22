@@ -6,11 +6,11 @@ The private backend owns supplier access, ranking, promotion-link generation, at
 
 - Endpoint: `POST /v1/offers/search`
 - Entry navigation: `GET /v1/offers/today` returns current total and nonempty category counts without generating promotion links
-- Canonical entry phrase: `今日优惠`; immediately returns the cloud-curated catalog without requiring a city
+- Canonical entry phrase: `今日优惠`; asks for a city, then directly lists all returned Skill-selected activities
 - Dashboard handoff: presentation ends with `https://luck.richisme.xyz/`
 - Catalog updates: publication changes are server-side and require no installed-Skill update
 - Scope: inventory without a supplier city is labeled `全国可用`, never city-local
-- Maximum results: 5
+- Maximum results per request: 5; canonical entry follows opaque cursors up to 20 displayed activities
 - Pagination: opaque `cursor`; clients never inspect or modify it
 - Money: integer CNY minor units or null
 - Redirect: HTTPS URL returned by the backend; clients never construct supplier URLs
