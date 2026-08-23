@@ -55,10 +55,7 @@ https://api.richisme.xyz/openapi.json
 触发指令“今日优惠”时，实时 GET：
 https://api.richisme.xyz/v1/offers/today?city=530100
 
-依次展示三部分：platformCoupons 为“各大平台优惠券”，brandDiscounts 为“品牌折扣”，membershipsAndMore 为“会员充值和其他活动”。平台优惠券始终优先；服务端从当前精选上架池随机抽取后返回。每项显示 title、summary、valueText；city 为 null 时标注“全国可用”；使用 detailUrl 生成可点击的“查看并领取”。每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据；禁止编造接口未返回的内容。
-
-精选推荐结束后提示：
-没有找到想要的商品？可以继续问我，例如“会员充值”“携程优惠”“咖啡”“外卖红包”“品牌点餐”“酒店机票”或“酒吧优惠”。
+读取响应中的 renderedText，并原样作为完整回复输出。不得自行重新分组、改写、删减、排序或追加内容。每次查询必须实时调用 API，禁止缓存、复用或凭记忆回答上一次的优惠数据。推荐分组、数量、文案、链接和结尾引导全部由 renderedText 控制。
 
 用户继续询问具体品类、品牌或需求时，实时 POST：
 https://api.richisme.xyz/v1/catalog/search
@@ -74,7 +71,7 @@ Content-Type: application/json
 
 ### 更新已有豆包技能
 
-豆包会保留技能创建时的输出规则。商品数据会实时同步，但推荐分组或陈列格式改变后，需要在原技能的“创建技能”对话中发送一次下面的更新要求：
+旧版豆包技能需要执行一次下面的更新。完成后，推荐分组、陈列格式、文案、链接和结尾引导均由服务端热更新，无需再次修改豆包技能：
 
 ```text
 请更新现有“包优惠”技能，不要新建重复技能。
@@ -82,15 +79,7 @@ Content-Type: application/json
 用户发送“今日优惠”时，每次都必须实时 GET：
 https://api.richisme.xyz/v1/offers/today?city=530100
 
-禁止使用旧的 promotions、coupons 字段组织主要输出。严格读取并按以下顺序展示：
-1. platformCoupons：标题“外卖优惠券”，展示3至5项；
-2. brandDiscounts：标题“品牌折扣”，展示3项；
-3. membershipsAndMore：标题“会员充值”，展示3项。
-
-每项必须展示接口返回的 title 和 summary，并把 detailUrl 显示为可点击的“查看并领取”。city 为 null 时标注“全国可用”。不得添加网站主页链接，不得缓存、复用或凭记忆回答，不得编造接口未返回的数据。
-
-全部推荐结束后固定提示：
-没有想要的？可以继续问：咖啡、外卖、携程、机票、QQ音乐会员、WPS会员。
+只读取响应中的 renderedText，并原样作为完整回复输出。禁止使用 promotions、coupons、platformCoupons、brandDiscounts 或 membershipsAndMore 自行组织回复。不得改写、删减、排序或追加内容；不得添加网站主页链接；不得缓存、复用或凭记忆回答。
 
 用户继续询问具体品类或品牌时，实时 POST：
 https://api.richisme.xyz/v1/catalog/search
@@ -102,7 +91,7 @@ Content-Type: application/json
 展示 offers 中的 title、summary，并把 redirectUrl 显示为“查看并领取”。
 ```
 
-商品、精选名单、排序、上下架、说明和领取链接均来自同一套云端 API。因此只需在运营后台修改一次，GitHub Skill、豆包 Skill 和其他 Agent 下一次查询时都会获得最新数据，无需重新安装。GitHub 中的 Skill 规则文件发生变化时，已经安装到第三方平台的本地副本不会自动升级，需要平台重新导入或更新；这与商品数据实时同步是两件事。
+商品、精选名单、排序、上下架、说明、领取链接和“今日优惠”的完整陈列文案均来自同一套云端 API。豆包完成一次 renderedText 升级后，以上内容下一次查询即可热更新，无需重新安装。只有 API 地址、调用方式或具体品类搜索协议发生变化时，才需要重新更新豆包技能。
 
 ## 使用
 

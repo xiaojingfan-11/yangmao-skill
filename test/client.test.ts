@@ -135,7 +135,7 @@ describe('getTodayCatalog', () => {
           category: 'delivery',
           city: null,
           validUntil: null,
-          detailUrl: 'https://luck.richisme.xyz/?search=%E5%A4%96%E5%8D%96',
+          detailUrl: 'https://go.richisme.xyz/o/00000000-0000-4000-8000-000000000001',
         },
       ],
       promotions: [],
@@ -143,6 +143,7 @@ describe('getTodayCatalog', () => {
       platformCoupons: [],
       brandDiscounts: [],
       membershipsAndMore: [],
+      renderedText: '🐑 今日优惠\n\n今日暂无可领取项目。',
     };
     const fetch = vi
       .fn<typeof globalThis.fetch>()

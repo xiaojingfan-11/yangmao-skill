@@ -50,6 +50,8 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
     typeof payload !== 'object' ||
     !Number.isInteger(payload.total) ||
     payload.total < 0 ||
+    typeof payload.renderedText !== 'string' ||
+    payload.renderedText.length < 1 ||
     !Array.isArray(payload.categories) ||
     !payload.categories.every(
       (item) =>

@@ -15,8 +15,8 @@ Treat `今日优惠` as the canonical entry phrase. `Luck领券`, `领券`, `今
 When the entry phrase is used:
 
 1. Ask `你想查看哪个城市的优惠？` unless the conversation already contains the city.
-2. After the city reply, call the catalog bridge with that city and read its `activities` array.
-3. Present three blocks only and in this order: `各大平台优惠券` using `platformCoupons`, `品牌折扣` using `brandDiscounts`, then `会员充值和其他活动` using `membershipsAndMore`. Platform coupons always come first. Preserve the server's randomized selection; do not show category navigation.
+2. After the city reply, call the catalog bridge with that city.
+3. Output the returned `renderedText` verbatim. Do not reconstruct, summarize, reorder, cache, or append anything to it. The server owns all recommendation groups, copy, links, and follow-up prompts so they can be hot-updated without reinstalling the Skill.
 
 Run the catalog bridge:
 
@@ -25,17 +25,6 @@ node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-catalog.mjs" '{"city":"530100"}'
 ```
 
 Use the city code supplied by the user/context; the example is not a default.
-
-Number the items separately in each block. Show `valueText`, exact title, and summary. Under every item add `[查看并领取](detailUrl)` using the returned URL unchanged. If fewer are returned, show fewer; never infer a discount or coupon amount from prose.
-
-After all offer content, add this final line and nothing below it:
-
-```text
-🌐 更多优惠点击打开：
-https://luck.richisme.xyz/?city={cityCode}
-```
-
-Keep the dashboard link at the bottom so it does not interrupt the conversation.
 
 When the user asks for a category or specific offer, build one bounded JSON search object using only these optional fields: `keyword`, `city`, `category`, `brand`, `budgetMinor`, `date`, `people`, `limit`, `cursor`. Default `limit` to 5.
 
