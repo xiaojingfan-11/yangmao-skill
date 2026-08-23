@@ -15,13 +15,13 @@ Treat `今日优惠` as the canonical entry phrase. `Luck领券`, `领券`, `今
 When the entry phrase is used:
 
 1. Ask `你想查看哪个城市的优惠？` unless the conversation already contains the city.
-2. After the city reply, call the catalog bridge with that city.
+2. After the city reply, call the desktop catalog bridge with that city.
 3. Output the returned `renderedText` verbatim. Do not reconstruct, summarize, reorder, cache, or append anything to it. The server owns all recommendation groups, copy, links, and follow-up prompts so they can be hot-updated without reinstalling the Skill.
 
 Run the catalog bridge:
 
 ```bash
-node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-catalog.mjs" '{"city":"530100"}'
+node "$CODEBUDDY_PLUGIN_ROOT/scripts/workbuddy-desktop.mjs" '{"city":"530100"}'
 ```
 
 Use the city code supplied by the user/context; the example is not a default.

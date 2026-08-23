@@ -9,7 +9,7 @@ Use `https://api.richisme.xyz` as the public offer API. Never invent an offer fr
 
 ## Entry flow
 
-`今日优惠` is the canonical entry phrase. Ask which city the user wants. After the city reply, call the current catalog and output the returned `renderedText` verbatim. Do not reconstruct, summarize, reorder, cache, or append anything to it. This server-rendered field is the hot-update boundary for recommendation groups, copy, links, and follow-up prompts.
+`今日优惠` is the canonical entry phrase. Ask which city the user wants. After the city reply, GET `https://api.richisme.xyz/v1/offers/desktop?city={cityCode}` and output the returned `renderedText` verbatim. The desktop response contains every current business section with at most five offers per section. Do not reconstruct, summarize, reorder, cache, or append anything to it.
 
 ## Request
 
