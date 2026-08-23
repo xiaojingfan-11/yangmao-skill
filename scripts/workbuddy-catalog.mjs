@@ -79,7 +79,7 @@ export async function run({ apiBaseUrl, rawInput, fetchFn = globalThis.fetch }) 
   for (const [key, limit] of [
     ['platformCoupons', 10],
     ['brandDiscounts', 6],
-    ['membershipsAndMore', 4],
+    ['membershipsAndMore', 5],
   ]) {
     if (
       !Array.isArray(payload[key]) ||

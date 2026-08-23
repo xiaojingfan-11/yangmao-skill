@@ -148,7 +148,7 @@ export const OfferCatalogResponseSchema = Type.Object(
         validUntil: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
         detailUrl: Type.String({ format: 'uri', pattern: '^https://go\\.richisme\\.xyz/o/' }),
       }),
-      { maxItems: 4 },
+      { maxItems: 5 },
     ),
     renderedText: Type.String({ minLength: 1, maxLength: 20000 }),
   },
