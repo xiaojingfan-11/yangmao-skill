@@ -72,6 +72,36 @@ Content-Type: application/json
 
 当前豆包安装示例固定使用昆明代码 `530100`。全国城市自动识别上线前，创建技能时应替换为用户需要的城市代码。
 
+### 更新已有豆包技能
+
+豆包会保留技能创建时的输出规则。商品数据会实时同步，但推荐分组或陈列格式改变后，需要在原技能的“创建技能”对话中发送一次下面的更新要求：
+
+```text
+请更新现有“包优惠”技能，不要新建重复技能。
+
+用户发送“今日优惠”时，每次都必须实时 GET：
+https://api.richisme.xyz/v1/offers/today?city=530100
+
+禁止使用旧的 promotions、coupons 字段组织主要输出。严格读取并按以下顺序展示：
+1. platformCoupons：标题“外卖优惠券”，展示3至5项；
+2. brandDiscounts：标题“品牌折扣”，展示3项；
+3. membershipsAndMore：标题“会员充值”，展示3项。
+
+每项必须展示接口返回的 title 和 summary，并把 detailUrl 显示为可点击的“查看并领取”。city 为 null 时标注“全国可用”。不得添加网站主页链接，不得缓存、复用或凭记忆回答，不得编造接口未返回的数据。
+
+全部推荐结束后固定提示：
+没有想要的？可以继续问：咖啡、外卖、携程、机票、QQ音乐会员、WPS会员。
+
+用户继续询问具体品类或品牌时，实时 POST：
+https://api.richisme.xyz/v1/catalog/search
+Content-Type: application/json
+
+请求体：
+{"keyword":"从用户问题中提取的关键词","city":"530100","limit":20}
+
+展示 offers 中的 title、summary，并把 redirectUrl 显示为“查看并领取”。
+```
+
 商品、精选名单、排序、上下架、说明和领取链接均来自同一套云端 API。因此只需在运营后台修改一次，GitHub Skill、豆包 Skill 和其他 Agent 下一次查询时都会获得最新数据，无需重新安装。GitHub 中的 Skill 规则文件发生变化时，已经安装到第三方平台的本地副本不会自动升级，需要平台重新导入或更新；这与商品数据实时同步是两件事。
 
 ## 使用
