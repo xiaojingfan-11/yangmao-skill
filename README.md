@@ -69,7 +69,7 @@ Content-Type: application/json
 
 当前豆包安装示例固定使用昆明代码 `530100`。全国城市自动识别上线前，创建技能时应替换为用户需要的城市代码。
 
-电脑端 Agent 使用同一个触发词“今日优惠”，但调用 `GET /v1/offers/desktop?city=城市代码`。该接口按当前全部业务板块分组，每个板块最多返回5个，并由 Agent 原样输出 `renderedText`。豆包仍调用 `/v1/offers/today`，保持15条精简推荐。
+电脑端 Agent 使用同一个触发词“今日优惠”，但调用 `GET /v1/offers/desktop?city=城市代码`。该接口按当前全部业务板块分组，每个板块最多返回5个，并由 Agent 原样输出 `renderedText`。豆包仍调用 `/v1/offers/today`，保持最多18条精简推荐：外卖优惠券5个、品牌折扣5个、会员充值5个、酒店机票等其他业态3个，各组不重复。
 
 ### 更新已有豆包技能
 
