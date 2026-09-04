@@ -130,6 +130,7 @@ pnpm security:boundary
 本项目采用 PolyForm Noncommercial License 1.0.0。允许个人学习、研究、测试和其他非商业用途；禁止商业使用。商业授权请联系项目所有者。
 
 这属于“公开源码（source-available）”，不是 OSI 定义的开源软件。
+
 ## 参与贡献
 
 欢迎通过 Issue 和 Pull Request 参与项目。
