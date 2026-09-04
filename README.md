@@ -130,3 +130,15 @@ pnpm security:boundary
 本项目采用 PolyForm Noncommercial License 1.0.0。允许个人学习、研究、测试和其他非商业用途；禁止商业使用。商业授权请联系项目所有者。
 
 这属于“公开源码（source-available）”，不是 OSI 定义的开源软件。
+## 参与贡献
+
+欢迎通过 Issue 和 Pull Request 参与项目。
+
+适合新成员的任务会使用 [`good first issue`](https://github.com/xiaojingfan-11/yangmao-skill/labels/good%20first%20issue) 标签标记。提交修改前，请先阅读对应 Issue 的任务说明。
+
+- [查看待处理任务](https://github.com/xiaojingfan-11/yangmao-skill/issues)
+- [提交问题或建议](https://github.com/xiaojingfan-11/yangmao-skill/issues/new)
+
+## 推广链接说明
+
+接口返回的部分优惠领取链接可能包含推广或 CPS 参数，项目维护者可能因此获得佣金。是否通过相关链接领取优惠，由用户自行决定。仓库不公开 CPS 密钥、佣金数据、订单信息及私有供应商接口。
